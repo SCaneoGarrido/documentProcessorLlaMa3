@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="images/icono.ico">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 
     <title>MVP CLINICAS DEL COBRE</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/cover.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/cover.css') }}" rel="stylesheet">
   </head>
 
   <body class="text-center">
@@ -36,7 +36,7 @@
           <h1 class="cover-heading">Optimiza tus Datos con Machine Learning</h1>
           <p class="lead">Acelera y mejora el procesamiento de tus archivos utilizando algoritmos avanzados de Machine Learning. Experimenta una mayor eficiencia y precisión en la gestión de grandes volúmenes de datos.</p>
           <p class="lead">
-            <img src="images/algoritmo.png" alt="Algoritmo" class="img-responsive">
+            <img src="{{ url_for('static', filename='images/algoritmo.png') }}" alt="Algoritmo" class="img-responsive">
             <a href="#" class="btn btn-lg btn-secondary">¡Pruébalo ahora!</a>
           </p>
         </div>
@@ -50,7 +50,7 @@
           <p>El lenguaje generativo es una aplicación de Machine Learning que se utiliza para generar texto, imágenes, música y otros tipos de contenido.</p>
           <h4>LLaMA3</h4>
           <div class="image-container">
-            <img src="images/Llama_3_featured_image-fs8.png" alt="Llama_3_featured_image-fs8" class="img-llama">
+            <img src="{{ url_for('static', filename='images/Llama_3_featured_image-fs8.png') }}" alt="Llama_3_featured_image-fs8" class="img-llama">
             <div class="text-container">
               <p>LLaMA3, desarrollado por Meta y lanzado en 2024, es un modelo de lenguaje generativo avanzado. Con hasta 70 mil millones de parámetros y entrenado en más de 15 billones de tokens, destaca por su capacidad para interpretar textos y generar redacciones coherentes y relevantes.</p>
             </div>
@@ -79,11 +79,11 @@
 
     <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery-slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/jquery-slim.min.js') }}" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <!-- nuestro script js que controla el funcionamiento del sitio web -->
-    <script src="js/script.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
 </html>
