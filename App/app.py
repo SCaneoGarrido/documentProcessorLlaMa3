@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, render_template, jsonify, request 
 from werkzeug.utils import secure_filename
+from modules.llama3_controler import Llama3Controler
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
@@ -42,6 +43,11 @@ def processing():
                 # Ruta completa del archivo
                 ruta_archivo = os.path.join(upload_folder, filename)
                 file.save(ruta_archivo)
+
+                # AQUI TIENES QUE SEGUIR CON LA LOGICA PARA PROCESADO
+                Llama3Controler_instance = Llama3Controler(upload_folder) # Esta es la instancia de clase de LLama3Controler
+                
+                
                 return jsonify({'msg': f'Se ha guardado su archivo en la ruta {ruta_archivo} del servidor'}), 200
             else:
                 return jsonify({'error': 'Archivo no permitido'}), 400

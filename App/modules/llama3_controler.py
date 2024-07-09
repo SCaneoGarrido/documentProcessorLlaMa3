@@ -9,6 +9,7 @@ class Llama3Controler:
   def clear_uploads(self):
     # Esta funcion se encargara de limpiar todo el contenido de la carpeta
     # UPLOADS_FOLDER luego de que se termine el procesamiento
+    print(f"Carpeta a limpiar {self.uploads_folder}")
     try:
       for f in os.listdir(self.uploads_folder):
         os.remove(os.path.join(dir, f))
