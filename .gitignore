@@ -1,3 +1,5 @@
 Env
 venv_CDC
 App/modules/__pycache__
+App/UPLOADS_FOLDER
+App/FILES_FOLDER
