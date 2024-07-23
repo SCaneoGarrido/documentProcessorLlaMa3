@@ -1,26 +1,33 @@
+# ------------------------------- IMPORTACIONES DE LIBRERIAS -------------------------- #
 import os
-
-from flask import Flask, render_template, jsonify, request 
+from flask import Flask, render_template, jsonify, request # type: ignore
 from werkzeug.utils import secure_filename
-from modules.llama3_controler import Llama3Controler
+from modules.llama3_controler import Llama3Controller
+from modules.FilesManager import FileManager
 
+# ------------------------------- CONFIGURACION DE DIRECTORIOS Y VARIABLES -------------- #
 app = Flask(__name__, template_folder="templates", static_folder="static")
-
-UPLOADS_FOLDER = 'UPLOADS_FOLDER'
+UPLOADS_FOLDER = 'UPLOADS_FOLDER' # Variable de APP para crear la carpeta de 
 ALLOWED_EXTENSIONS = {'txt', 'pdf'} # se pueden agregar más a medida que se requiera
-
 app.config['UPLOADS_FOLDER'] = UPLOADS_FOLDER
 
-# FUNCION AUXILIAR (COMPROBACION DE UN ARCHIVO CON EXTENSION VALIDO)
+
+# -------------------------------- INICIALIZACION DE CLASES ------------------------------ #
+FileManager_instace = FileManager()
+Llama3Controller_instance = Llama3Controller()
+# ----------------------------- FUNCION AUXILIAR (COMPROBACION DE UN ARCHIVO CON EXTENSION VALIDO) --------------- #
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# renderizador
+
+# ----------------------------------- RENDERIZADOR DE HOME -------------------------------------------------------- #
 @app.route("/")
 def home():
     return render_template("index.html")
 
+
+# ---------------------------------- RUTA PRINCIPAL DE PROCESAMIENTO --------------------------------------------- #
 @app.route('/processing', methods=['POST'])
 def processing():
     if request.method == 'POST':
@@ -28,7 +35,7 @@ def processing():
             return "No file part", 400
 
         file = request.files['file']
-
+        prompt = request.form.get('prompt', '')
         if file.filename == '':
             return jsonify({'Error': 'No selected file'}), 400
 
@@ -44,11 +51,21 @@ def processing():
                 ruta_archivo = os.path.join(upload_folder, filename)
                 file.save(ruta_archivo)
 
-                # AQUI TIENES QUE SEGUIR CON LA LOGICA PARA PROCESADO
-                Llama3Controler_instance = Llama3Controler(upload_folder) # Esta es la instancia de clase de LLama3Controler
                 
-                
-                return jsonify({'msg': f'Se ha guardado su archivo en la ruta {ruta_archivo} del servidor'}), 200
+                ruta_txt = FileManager_instace.process_pdf(ruta_archivo)
+                try:
+                    if ruta_txt is not None:
+                        result = Llama3Controller_instance.analyze_file(ruta_txt, prompt)
+
+                        if result:
+                            print(result)
+                            return jsonify({'msg':str(result)}), 200
+                        else:
+                            return jsonify({'error':'Ocurrio un error'}), 400
+                except Exception as e:
+                    print(f"Ocurrio un error al procesar el archivo\n Error -> {e}")
+                    return jsonify({'error':'Hubo un error al intentar procesar el archivo'}), 500     
+            
             else:
                 return jsonify({'error': 'Archivo no permitido'}), 400
         except Exception as e:
@@ -57,5 +74,6 @@ def processing():
     else:
         return "Method not allowed", 405
 
+# ------------------------ EJECUCION DE APP -------------------------------------------- #
 if __name__ == "__main__":
     app.run(debug=True)
