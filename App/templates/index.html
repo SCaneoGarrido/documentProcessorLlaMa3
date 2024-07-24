@@ -78,6 +78,21 @@
       </div>
       <!-- Contenido de la sección App Llama3 -->
 
+      <!-- Sidebar con las preferencias de la query -->
+      <div id="sidebar" class="sidebar" style="display:none;">
+        <h3>Preferencias de la Query</h3>
+        <div class="btn-group-vertical" role="group">
+          <button type="button" class="btn btn-primary" id="defaultPromptBtn">Prompt Predeterminado</button>
+          <button type="button" class="btn btn-secondary" id="customPromptBtn" disabled>Prompt Personalizado</button>
+          <button type="button" class="btn btn-secondary" id="llama3PromptBtn" disabled>Prompt Asistido Por LLama3</button>
+        </div>
+        <div class="form-group mt-3">
+          <label for="keywords">Palabras Clave</label>
+          <textarea id="keywords" class="form-control" rows="3" placeholder="Ingresa las palabras clave..."></textarea>
+        </div>
+        <button id="submitBtn" class="btn btn-lg btn-primary mt-3">Enviar</button>
+      </div>
+
     </main>
 
     <footer class="mastfoot mt-auto">
@@ -90,13 +105,10 @@
 
   <!-- Bootstrap core JavaScript -->
   <!-- Placed at the end of the document so the pages load faster -->
-  <script src="{{ url_for('static', filename='js/jquery-slim.min.js') }}"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
-  <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>,
+  <script src="{{ url_for('static', filename='js/jquery-slim.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-  <!-- nuestro script js que controla el funcionamiento del sitio web -->
+  <!-- Nuestro script js que controla el funcionamiento del sitio web -->
   <script src="{{ url_for('static', filename='js/section_controller.js') }}"></script>
   <script src="{{ url_for('static', filename='js/sendFile_controller.js')}}"></script>
 </body>
