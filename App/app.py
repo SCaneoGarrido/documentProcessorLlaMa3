@@ -2,8 +2,8 @@
 import os
 from flask import Flask, render_template, jsonify, request # type: ignore
 from werkzeug.utils import secure_filename
-from modules.llama3_controler import Llama3Controller
-from modules.FilesManager import FileManager
+from modules.llama3_handler import Llama3Handler
+from modules.file_handler import FileHandler
 
 # ------------------------------- CONFIGURACION DE DIRECTORIOS Y VARIABLES -------------- #
 app = Flask(__name__, template_folder="templates", static_folder="static")
@@ -13,8 +13,8 @@ app.config['UPLOADS_FOLDER'] = UPLOADS_FOLDER
 
 
 # -------------------------------- INICIALIZACION DE CLASES ------------------------------ #
-FileManager_instace = FileManager()
-Llama3Controller_instance = Llama3Controller()
+FileManager_instace = FileHandler()
+Llama3Controller_instance = Llama3Handler()
 # ----------------------------- FUNCION AUXILIAR (COMPROBACION DE UN ARCHIVO CON EXTENSION VALIDO) --------------- #
 def allowed_file(filename):
     return '.' in filename and \
@@ -36,6 +36,7 @@ def processing():
 
         file = request.files['file']
         prompt = request.form.get('prompt', '')
+        keywords = request.form.get('keywords')
         if file.filename == '':
             return jsonify({'Error': 'No selected file'}), 400
 
@@ -52,14 +53,20 @@ def processing():
                 file.save(ruta_archivo)
 
                 
-                ruta_txt = FileManager_instace.process_pdf(ruta_archivo)
+                ruta_txt = FileManager_instace.extract_text_from_pdf(ruta_archivo)
                 try:
                     if ruta_txt is not None:
-                        result = Llama3Controller_instance.analyze_file(ruta_txt, prompt)
+                        result = Llama3Controller_instance.generate_summary_from_text_defaultPrompt(ruta_txt)
+                        # manejar las palabras
+                        if keywords is not None:
+                            result_words = Llama3Controller_instance.search_keywords(ruta_txt, keywords)
+                            summary_ = f"{result}\n Seccion Palabras\n {result_words}"
+
+                        summary_ = f"{result}\n"
 
                         if result:
                             print(result)
-                            return jsonify({'msg':str(result)}), 200
+                            return jsonify({'msg':'File successfully processed', 'summary':(summary_)}), 200
                         else:
                             return jsonify({'error':'Ocurrio un error'}), 400
                 except Exception as e:

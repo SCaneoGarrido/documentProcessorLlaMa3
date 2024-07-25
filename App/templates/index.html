@@ -15,6 +15,13 @@
 
   <!-- Custom styles for this template -->
   <link href="{{ url_for('static', filename='css/cover.css') }}" rel="stylesheet">
+  <style>
+    .spinner-container {
+      display: grid;
+      place-items: center; /* Centra horizontal y verticalmente */
+      height: 40vh;       /* Altura del contenedor para centrar verticalmente */
+  }
+  </style>
 </head>
 
 <body class="text-center">
@@ -70,7 +77,6 @@
         <h2>Ingresa tu hoja médica</h2>
         <form action="POST" class="image-container" id="file_input" enctype="multipart/form-data">
           <input type="file" id="fileInput" />
-          <button class="btn btn-lg btn-primary"> Enviar </button>
         </form>
         <p>Ingresando la hoja médica, puedes obtener un resumen detallado y preciso de lo que contiene el documento.
           Utilizamos modelos generativos avanzados de machine learning, como Llama3, que analizan y comprenden el
@@ -91,6 +97,10 @@
           <textarea id="keywords" class="form-control" rows="3" placeholder="Ingresa las palabras clave..."></textarea>
         </div>
         <button id="submitBtn" class="btn btn-lg btn-primary mt-3">Enviar</button>
+        <div class="spinner-container">
+          <img id="spinner-Gif" src="{{ url_for('static', filename='images/Gear@1x-0.2s-200px-200px.gif') }}" 
+               style="width: auto; height: auto;">
+        </div>
       </div>
 
     </main>
