@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const file_ = document.getElementById('fileInput').files[0];
     const keywords = document.getElementById('keywords').value;
-
     // Verifica si se ha seleccionado un archivo
     if (!file_) {
       console.log('No se ha seleccionado ningún archivo');
@@ -96,7 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Libera la URL del Blob
           URL.revokeObjectURL(url);
-        } else {
+        } else if(data.msg === 'Opcion aun no implementada'){
+          alert('Esta opcion aun esta en proceso de desarrollo.')
+        } 
+        else {
           alert('Error en el procesamiento del archivo');
         }
       })

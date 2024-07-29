@@ -1,5 +1,6 @@
 # ------------------------ IMPORTACION DE LIBRERIAS ------------------------ #
 import os
+from docx import Document
 from PyPDF2 import PdfReader
 
 # ------------------------ FILEHANDLER ------------------------ #
@@ -32,3 +33,26 @@ class FileHandler:
 
         return output_file_path
 
+    def extraer_texto_docx(self, ruta_docx):
+        # Cargar el archivo DOCX
+        doc = Document(ruta_docx)
+        
+        # Extraer texto del archivo DOCX
+        texto = ""
+        for parrafo in doc.paragraphs:
+            texto += parrafo.text + "\n"
+        
+        # Definir la ruta del archivo TXT en la misma carpeta
+        nombre_archivo = os.path.basename(ruta_docx)
+        nombre_archivo_sin_ext = os.path.splitext(nombre_archivo)[0]
+        ruta_txt = os.path.join(self.files_folder, nombre_archivo_sin_ext + '.txt')
+        
+        # Escribir el texto extraído en el archivo TXT
+        try:
+            with open(ruta_txt, 'w', encoding='utf-8') as archivo_txt:
+                archivo_txt.write(texto)
+        except Exception as e:
+            print(f"Error al guardar el archivo {ruta_txt}: {e}")
+
+        # Retornar la ruta del archivo TXT
+        return ruta_txt
