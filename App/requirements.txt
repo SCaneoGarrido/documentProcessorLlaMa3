@@ -23,4 +23,3 @@ urllib3==2.2.2
 Werkzeug==3.0.3
 ollama
 PyPDF2
-pdfplumber
